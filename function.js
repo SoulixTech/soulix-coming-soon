@@ -293,31 +293,38 @@ function setupVideoIntro() {
   // Function to play next video
   function playNextVideo() {
     if (currentVideoIndex < videoSources.length) {
+      // Ensure video is muted for autoplay
+      introVideo.muted = true;
+      introVideo.setAttribute('playsinline', '');
+      introVideo.setAttribute('webkit-playsinline', '');
+      
       introVideo.src = videoSources[currentVideoIndex];
       introVideo.load();
       
-      // Add a small delay to ensure video is loaded
-      setTimeout(() => {
+      // Wait for video to be ready
+      introVideo.addEventListener('loadeddata', function onLoaded() {
+        introVideo.removeEventListener('loadeddata', onLoaded);
+        
         const playPromise = introVideo.play();
         if (playPromise !== undefined) {
           playPromise.then(() => {
             console.log('Video playing successfully');
+            // Hide fallback if it was showing
+            videoFallback.style.display = 'none';
           }).catch(error => {
-            console.log('Autoplay prevented for video ' + (currentVideoIndex + 1), error);
-            // Try with muted
-            introVideo.muted = true;
-            introVideo.play().catch(err => {
-              console.log('Still failed, trying next or showing fallback');
-              currentVideoIndex++;
-              if (currentVideoIndex < videoSources.length) {
-                playNextVideo();
-              } else {
-                showFallback();
-              }
-            });
+            console.log('Autoplay blocked, showing fallback with click-to-play');
+            showFallback();
           });
         }
-      }, 100);
+      }, { once: true });
+      
+      // Fallback if video doesn't load in 3 seconds
+      setTimeout(() => {
+        if (introVideo.paused && introVideo.readyState < 3) {
+          console.log('Video taking too long to load, showing fallback');
+          showFallback();
+        }
+      }, 3000);
     } else {
       // All videos played
       finishVideoSequence();
@@ -326,7 +333,8 @@ function setupVideoIntro() {
   
   // Show fallback animation
   function showFallback() {
-    introVideo.style.display = 'none';
+    // Don't hide video completely, just show fallback overlay
+    videoFallback.style.display = 'block';
     videoFallback.classList.add('show');
   }
   
