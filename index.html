@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Coming Soon - Launching Soon</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Poppins:wght@300;400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+	<!-- Video Introduction Overlay -->
+	<div class="video-overlay" id="videoOverlay">
+		<div class="video-container">
+			<button class="skip-btn" id="skipBtn">Skip Intro</button>
+			<video id="introVideo" muted playsinline>
+				Your browser does not support the video tag.
+			</video>
+			<div class="video-fallback">
+				<h1 class="fallback-title">Welcome!</h1>
+				<p class="fallback-text">Something amazing is coming soon...</p>
+				<button class="enter-btn" id="enterBtn">Enter Site</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Theme 1: Minimal Dark with Flip Counter -->
+	<div class="theme-container theme-1 active">
+		<div class="background-animation"></div>
+		<div class="content">
+			<h1 class="main-title fade-in">Launching Soon</h1>
+			<p class="subtitle fade-in-delay">Leave your email and we'll let you know once the site goes live.</p>
+			<div class="countdown flip-countdown">
+				<div class="time-unit">
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="flip-card-front"><span id="days-1">00</span></div>
+							<div class="flip-card-back"><span id="days-1-back">00</span></div>
+						</div>
+					</div>
+					<span class="label">DAYS</span>
+				</div>
+				<div class="time-unit">
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="flip-card-front"><span id="hours-1">00</span></div>
+							<div class="flip-card-back"><span id="hours-1-back">00</span></div>
+						</div>
+					</div>
+					<span class="label">HOURS</span>
+				</div>
+				<div class="time-unit">
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="flip-card-front"><span id="minutes-1">00</span></div>
+							<div class="flip-card-back"><span id="minutes-1-back">00</span></div>
+						</div>
+					</div>
+					<span class="label">MINUTES</span>
+				</div>
+				<div class="time-unit">
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="flip-card-front"><span id="seconds-1">00</span></div>
+							<div class="flip-card-back"><span id="seconds-1-back">00</span></div>
+						</div>
+					</div>
+					<span class="label">SECONDS</span>
+				</div>
+			</div>
+			<div class="notify-form">
+				<input type="email" placeholder="Enter your email address" class="email-input">
+				<button class="notify-btn">NOTIFY ME</button>
+			</div>
+		</div>
+	</div>
+
+	<!-- Theme 2: Retro Terminal Style -->
+	<div class="theme-container theme-2">
+		<div class="terminal-bg">
+			<div class="scanline"></div>
+		</div>
+		<div class="content">
+			<div class="terminal-window">
+				<div class="terminal-header">
+					<span class="terminal-dot red"></span>
+					<span class="terminal-dot yellow"></span>
+					<span class="terminal-dot green"></span>
+					<span class="terminal-title">launch.exe</span>
+				</div>
+				<div class="terminal-body">
+					<p class="terminal-text">$ Initializing launch sequence...</p>
+					<p class="terminal-text">$ System status: <span class="status-pending">PENDING</span></p>
+					<h1 class="terminal-main">LAUNCHING IN:</h1>
+					<div class="countdown terminal-countdown">
+						<div class="terminal-unit">
+							<span class="terminal-number" id="days-2">00</span>
+							<span class="terminal-label">DAYS</span>
+						</div>
+						<span class="terminal-colon">:</span>
+						<div class="terminal-unit">
+							<span class="terminal-number" id="hours-2">00</span>
+							<span class="terminal-label">HOURS</span>
+						</div>
+						<span class="terminal-colon">:</span>
+						<div class="terminal-unit">
+							<span class="terminal-number" id="minutes-2">00</span>
+							<span class="terminal-label">MINS</span>
+						</div>
+						<span class="terminal-colon">:</span>
+						<div class="terminal-unit">
+							<span class="terminal-number" id="seconds-2">00</span>
+							<span class="terminal-label">SECS</span>
+						</div>
+					</div>
+					<div class="notify-form terminal-form">
+						<span class="terminal-prompt">$</span>
+						<input type="email" placeholder="enter_email@domain.com" class="terminal-input">
+						<button class="terminal-btn">[SUBSCRIBE]</button>
+					</div>
+					<p class="terminal-text blink">▮</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="function.js"></script>
+</body>
+</html>

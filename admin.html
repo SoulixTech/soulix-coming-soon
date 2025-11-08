@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscribers Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-export {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-export:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .table-container {
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f9fafb;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            color: #1f2937;
+        }
+
+        tbody tr {
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: #6b7280;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            color: #374151;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #6b7280;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats {
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 15px 25px;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📧 Subscriber Management</h1>
+            <p>Coming Soon Page - Email Subscribers</p>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalCount">0</div>
+                    <div class="stat-label">Total Subscribers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="todayCount">0</div>
+                    <div class="stat-label">Today</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Search by email...">
+            </div>
+            <button class="btn btn-primary" onclick="loadSubscribers()">🔄 Refresh</button>
+            <button class="btn btn-export" onclick="exportToCSV()">📥 Export CSV</button>
+        </div>
+
+        <div class="table-container">
+            <div id="loading" class="loading">
+                Loading subscribers...
+            </div>
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">📭</div>
+                <h3>No Subscribers Yet</h3>
+                <p>Email addresses will appear here once users subscribe</p>
+            </div>
+            <table id="subscribersTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Email Address</th>
+                        <th>Subscribed Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="subscribersBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        let allSubscribers = [];
+
+        // Load subscribers on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSubscribers();
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = allSubscribers.filter(sub => 
+                sub.email.toLowerCase().includes(searchTerm)
+            );
+            displaySubscribers(filtered);
+        });
+
+        // Load subscribers from API
+        async function loadSubscribers() {
+            const loading = document.getElementById('loading');
+            const emptyState = document.getElementById('emptyState');
+            const table = document.getElementById('subscribersTable');
+
+            loading.style.display = 'block';
+            emptyState.style.display = 'none';
+            table.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/subscribers');
+                const data = await response.json();
+
+                if (data.success && data.subscribers) {
+                    allSubscribers = data.subscribers;
+                    
+                    if (allSubscribers.length === 0) {
+                        loading.style.display = 'none';
+                        emptyState.style.display = 'block';
+                    } else {
+                        displaySubscribers(allSubscribers);
+                        loading.style.display = 'none';
+                        table.style.display = 'table';
+                    }
+
+                    updateStats(data.subscribers);
+                } else {
+                    throw new Error('Failed to load subscribers');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                loading.innerHTML = '❌ Error loading subscribers. Please refresh the page.';
+            }
+        }
+
+        // Display subscribers in table
+        function displaySubscribers(subscribers) {
+            const tbody = document.getElementById('subscribersBody');
+            tbody.innerHTML = '';
+
+            subscribers.forEach((subscriber, index) => {
+                const row = document.createElement('tr');
+                const date = new Date(subscriber.subscribed_at);
+                const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><strong>${subscriber.email}</strong></td>
+                    <td>${formattedDate}</td>
+                    <td><span class="badge badge-success">Active</span></td>
+                    <td>
+                        <button class="btn btn-danger" onclick="deleteSubscriber('${subscriber.email}')">
+                            🗑️ Delete
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Update statistics
+        function updateStats(subscribers) {
+            const totalCount = document.getElementById('totalCount');
+            const todayCount = document.getElementById('todayCount');
+
+            totalCount.textContent = subscribers.length;
+
+            const today = new Date().toDateString();
+            const todaySubscribers = subscribers.filter(sub => {
+                const subDate = new Date(sub.subscribed_at).toDateString();
+                return subDate === today;
+            });
+
+            todayCount.textContent = todaySubscribers.length;
+        }
+
+        // Delete subscriber
+        async function deleteSubscriber(email) {
+            if (!confirm(`Are you sure you want to delete ${email}?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/subscribers/${email}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('✅ Subscriber deleted successfully');
+                    loadSubscribers();
+                } else {
+                    alert('❌ Failed to delete subscriber: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Error deleting subscriber');
+            }
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            if (allSubscribers.length === 0) {
+                alert('No subscribers to export');
+                return;
+            }
+
+            let csv = 'Email,Subscribed Date\n';
+            allSubscribers.forEach(subscriber => {
+                const date = new Date(subscriber.subscribed_at).toLocaleString();
+                csv += `"${subscriber.email}","${date}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `subscribers_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
